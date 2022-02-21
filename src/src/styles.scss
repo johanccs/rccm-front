@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~bootstrap-icons/font/bootstrap-icons.css";
 
 .text-sm{
     font-size: 13px;
@@ -17,3 +18,32 @@
     font-size: 14px;
     font-style: italic;
 }
+
+.card{
+    width: 25rem;
+    margin: 0 auto;
+    margin-top: 0 auto;
+}
+
+.card-md{
+    width: 45rem;
+    margin: 0 auto;
+    margin-top: 0 auto;
+}
+
+.vertical-center{
+    min-height: 100%;
+    min-height: 100vh;
+    
+    display: flex;
+    align-items: center;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';

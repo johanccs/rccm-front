@@ -3,10 +3,6 @@
     margin-top: 20px;
 }
 
-.width{
-    width: 50rem;
-}
-
 .font-weight-light{
     font-weight: lighter;
     font-size: 11px;
@@ -22,12 +18,25 @@
 }
 
 .td-height{
-    height: 40px;
+    height: 20px;
 }
 
 .sbutton{
+    width: 45px;
+    height: 25px;
+}
+
+.rbutton{
     width: 35px;
     height: 35px;
+}
+
+.ricon-margin{
+
+    margin-left: -0px;
+    margin-top: -2px;  
+    height: 12px;
+    width: 12px; 
 }
 
 .sicon-margin{
