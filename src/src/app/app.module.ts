@@ -14,9 +14,12 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { DisplayProvidersComponent } from './components/display-providers/display-providers.component';
 import { AddProvidersComponent } from './components/add-providers/add-providers.component';
-import {DynamicDialogModule} from 'primeng/dynamicdialog';
-import {InputTextModule} from 'primeng/inputtext';
-import {TooltipModule} from 'primeng/tooltip';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { InputTextModule } from 'primeng/inputtext';
+import { TooltipModule } from 'primeng/tooltip';
+import { ToastModule } from 'primeng/toast';
+import { RippleModule } from 'primeng/ripple';
+import { HttpClientModule } from '@angular/common/http'
 
 @NgModule({
   declarations: [
@@ -39,6 +42,9 @@ import {TooltipModule} from 'primeng/tooltip';
     DynamicDialogModule,
     InputTextModule,
     TooltipModule,
+    ToastModule,
+    RippleModule,
+    HttpClientModule,
     AppRoutingModule,
    
   ],

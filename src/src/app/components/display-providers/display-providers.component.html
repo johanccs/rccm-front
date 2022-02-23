@@ -1,23 +1,26 @@
 
-<div class="container center card-md">
+<div class="container center">
     <p-table [value]="providers">
         <ng-template pTemplate="header">
             <tr>
+                <th pSortableColumn="id" class="font-weight-bolder">Id<p-sortIcon field="id"></p-sortIcon></th>
                 <th pSortableColumn="name" class="font-weight-bolder">Name<p-sortIcon field="name"></p-sortIcon></th>
                 <th class="font-weight-bolder">Delimiter</th>
+                <th class="font-weight-bolder">Number of digits</th>
                 <th class="font-weight-bolder">Actions</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-provider>
             <tr>
-                <td class="font-weight-light td-height">{{provider.name}}</td>
+                <td class="font-weight-light">{{provider.id}}</td>
+                <td class="font-weight-light">{{provider.name}}</td>
                 <td class="font-weight-light">{{0}} - {{provider.delimiter}}</td>
+                <td class="font-weight-light">{{provider.nrOfDigits}}</td>
                 <td>
                     <div>                        
-                        <button pButton type="button" class="p-button-raised p-button-sm p-button-info my-2 sbutton" pTooltip="Edit provider detail">
-                            <i class="pi pi-credit-card ricon-margin mb-1"></i>      
-                        </button>
-                        <button pButton type="button" class="p-button-raised p-button-sm p-button-danger my-2 mx-1 sbutton" pTooltip="Delete provider" >
+                        <button pButton type="button" 
+                                class="p-button-raised p-button-sm p-button-danger my-2 mx-1 sbutton" 
+                                pTooltip="Delete provider" (click)="deletePRovider(provider)" >
                             <i class="bi bi-trash3 ricon-margin mb-2"></i>      
                         </button>
                     </div>
@@ -25,7 +28,10 @@
             </tr>
         </ng-template>   
     </p-table>
-    <button pButton type="button" class="p-button-raised p-button-rounded p-button-sm p-button-warning my-2 rbutton" pTooltip="Add new provider" >
-        <i class="bi bi-plus-circle sicon-margin" (click)="show()"></i>       
+    <button pButton type="button" 
+            class="p-button-raised p-button-rounded p-button-sm p-button-warning my-2 rbutton" 
+            pTooltip="Add new provider"
+            (click)="show()" >
+        <i class="bi bi-plus-circle sicon-margin"></i>       
     </button>
 </div>

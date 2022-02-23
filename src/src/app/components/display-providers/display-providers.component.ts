@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProviderViewDto } from 'src/app/models/provider-view-dto';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AddProvidersComponent } from '../add-providers/add-providers.component';
+import { CardProviderService } from 'src/app/services/CardProviders/cardprovider.service';
+import { ProviderDeleteDto } from 'src/app/models/provider-delete-dto';
 
 @Component({
   selector: 'app-display-providers',
@@ -14,7 +16,9 @@ export class DisplayProvidersComponent implements OnInit, OnDestroy {
   providers: ProviderViewDto[] = [];
   ref: DynamicDialogRef;
 
-  constructor(public dialogService: DialogService) { }
+  constructor(
+    public dialogService: DialogService, 
+    private cpService: CardProviderService) { }
   
   ngOnDestroy(): void {
     if(this.ref){
@@ -27,17 +31,24 @@ export class DisplayProvidersComponent implements OnInit, OnDestroy {
   }
 
   private loadProviders(){
-    this.providers = [
-      new ProviderViewDto("Visa", 6),
-      new ProviderViewDto("MasterCard", 5),
-      new ProviderViewDto("Diners", 6),
-    ];
+   
+    this.cpService.getAll().subscribe(data=> {
+      this.providers = data as ProviderViewDto[];
+    });
+
   }
 
   show(){
     this.ref=this.dialogService.open(AddProvidersComponent, {
       header: 'Add new Credit Card Provider',
-      width: '30rem'
+      width: '37rem'
     });
   }
+
+  deletePRovider(entity: ProviderDeleteDto){
+    this.cpService.delete(entity.id).subscribe(data=>{
+      console.log(data);
+    });
+  }
+
 }

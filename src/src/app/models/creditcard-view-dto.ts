@@ -5,6 +5,7 @@ export interface ICreditCardView{
 
 export class CreditCardViewDto implements ICreditCardView {
 
+    id: number;
     cardNumber: string;
     provider: string;
 
