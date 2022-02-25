@@ -34,6 +34,7 @@ export class LoginHomeComponent implements OnInit {
         setTimeout(() => {
           this.showSuccess("Login", "Success. Please wait...");
           this.isBusy = false;
+          localStorage.setItem("user1", 'true');
           this.router.navigate(['home']);
         }, 2000);
       }else{

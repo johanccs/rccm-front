@@ -1,6 +1,6 @@
 input{
-    width: auto;
-    height: 28px;
+    width: 160px;
+    height: 28px;  
 }
 
 button{
@@ -12,3 +12,8 @@ button{
     padding:0;
     margin-left: -5px;
 }
+
+.isBusy{
+    color: darkorange;
+}
+

@@ -1,16 +1,39 @@
-<div class="row my-2">
-    <div class="col-4">
-        <input type="text" pInputText class="p-inputtext-sm text-sm" placeholder="provider name">
-    </div>
-    <div class="col-4">
-        <input type="text" pInputText class="p-inputtext-sm text-sm" placeholder="delimeter (0-6)">
-    </div>
-    <div class="col-4">
-        <input type="text" pInputText class="p-inputtext-sm text-sm" placeholder="Number of digits">
-    </div>
-</div>
-<button pButton type="button" class="p-button-raised p-button-rounded p-button-sm p-button-warning my-2" >
-    <i class="bi bi-plus-circle icon-margin"></i>    
+<form (ngSubmit)="createProvider()" name="form" novalidate>
+    <div class="my-2 row">
     
-</button>
+        <div class="col">
+            <input type="text" 
+                   pInputText 
+                   name="name"
+                   [(ngModel)]="newProvider.name"
+                   class="p-inputtext-sm text-sm form-control" 
+                   placeholder="provider name">
+        </div>
+
+        <div class="col">
+            <input type="text" 
+                pInputText 
+                class="p-inputtext p-inputtext-sm text-sm form-control" 
+                name="delimiter"
+                [(ngModel)]="newProvider.delimiter"
+                placeholder="delimiter (0-6)">
+        </div>
+
+        <div class="col">
+            <input type="text" 
+                pInputText 
+                class="p-inputtext-sm text-sm form-control" 
+                name="nrOfDigits"
+                [(ngModel)]="newProvider.nrOfDigits"
+                placeholder="Card Number length">
+        </div>        
+    </div>
+
+    <button pButton type="submit" class="p-button-raised p-button-rounded p-button-sm p-button-warning my-2" >
+        <i class="bi bi-plus-circle icon-margin"></i>    
+    </button>
+    <div class="text-sm isBusy" *ngIf="isBusy">Busy. Please wait...</div>
+</form>
+
+<p-toast position="top-left" key="t1"></p-toast>
   

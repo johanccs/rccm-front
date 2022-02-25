@@ -20,6 +20,10 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ToastModule } from 'primeng/toast';
 import { RippleModule } from 'primeng/ripple';
 import { HttpClientModule } from '@angular/common/http'
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { PasswordForgetHomeComponent } from './components/security/password-forget-home/password-forget-home.component'
+import { CanDeactivateNewCreditCardGuard } from './router-guards/can-deactivate-new-credit-card-guard';
+import { CanActivateGuard } from './router-guards/can-activate.guard';
 
 @NgModule({
   declarations: [
@@ -31,7 +35,8 @@ import { HttpClientModule } from '@angular/common/http'
     ViewCardsHomeComponent,
     HomeComponent,
     DisplayProvidersComponent,
-    AddProvidersComponent
+    AddProvidersComponent,
+    PasswordForgetHomeComponent
   ],
   imports: [
     BrowserModule,
@@ -45,10 +50,11 @@ import { HttpClientModule } from '@angular/common/http'
     ToastModule,
     RippleModule,
     HttpClientModule,
+    ConfirmPopupModule,
     AppRoutingModule,
    
   ],
-  providers: [],
+  providers: [CanDeactivateNewCreditCardGuard, CanActivateGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

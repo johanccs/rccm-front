@@ -1,22 +1,38 @@
-<div class="container my-5 mx-5">
-    <div class="card">
-        <div class="card-body">
-            <div class="card-title text-sm">Add Credit Card Number to validate and store</div>
-            <div class="card-text">
-                <form #frm="ngForm" (ngSubmit)='submit()'>
-                    <input type="text" 
-                           class="form-control form-control-sm"
-                           name='cardnumber' />
-
-                    <div>
-                        <button class="btn btn-warning btn-sm my-2">
-                            <i class="bi bi-upload mx-1"></i>
-                            <label class="text-xs">Upload</label>
-                        </button>
+<form #newCreditCardForm="ngForm" (ngSubmit)='submit()'>
+    <div class="container my-5 mx-5">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title text-sm">Add Credit Card Number to validate and store ({{cardNumber.length}} character(s))</div>
+                <div class="card-text">
+                        <input type="text" 
+                               class="form-control form-control-sm"
+                               [(ngModel)]="cardNumber"
+                               name='cardnumber' />
+                        <div>
+                            <button class="btn btn-warning btn-sm my-2" type="submit">
+                                <i class="bi bi-upload mx-1"></i>
+                                <label class="text-xs">Validate</label>
+                            </button>
+                        </div>
                     </div>
-
-                </form>
-            </div>
+                </div>
         </div>
+    
+        <div class="text-center bg-color step-height" *ngIf="isStep1Vis">
+            <i class="pi pi-stop-circle" style="font-size: 1rem; margin-top:3px;"></i>
+            <label class="my-2 mx-2">{{step1Msg}}</label> 
+        </div>
+    
+        <div class="text-center bg-color step-height" *ngIf="isStep2Vis">
+            <i class="pi pi-stop-circle" style="font-size: 1rem; margin-top:3px;"></i>
+            <label class="my-2 mx-2">{{step2Msg}}</label> 
+        </div>
+    
+        <div class="text-center bg-color step-height" *ngIf="isStep3Vis">
+            <i class="pi pi-stop-circle" style="font-size: 1rem; margin-top:3px;"></i>
+            <label class="my-2 mx-2">{{step3Msg}}</label> 
+        </div> 
     </div>
-</div>
+</form>
+
+<p-toast position="top-left" key="t1"></p-toast>
