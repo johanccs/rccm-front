@@ -24,6 +24,11 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { PasswordForgetHomeComponent } from './components/security/password-forget-home/password-forget-home.component'
 import { CanDeactivateNewCreditCardGuard } from './router-guards/can-deactivate-new-credit-card-guard';
 import { CanActivateGuard } from './router-guards/can-activate.guard';
+import { JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter(){
+  return localStorage.getItem("token"); 
+}
 
 @NgModule({
   declarations: [
@@ -52,7 +57,14 @@ import { CanActivateGuard } from './router-guards/can-activate.guard';
     HttpClientModule,
     ConfirmPopupModule,
     AppRoutingModule,
-   
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ["localhost:5001"],
+        disallowedRoutes: [],
+        authScheme: "Bearer " 
+      }
+    })
   ],
   providers: [CanDeactivateNewCreditCardGuard, CanActivateGuard],
   bootstrap: [AppComponent]

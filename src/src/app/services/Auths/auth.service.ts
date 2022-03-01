@@ -11,6 +11,10 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
+  public getToken(){
+    return localStorage.getItem('token');
+  }
+
   public login(loginDto: LoginViewDto){
 
     const url = `${this.apiUrl}/auth`;

@@ -13,7 +13,8 @@ const routes: Routes = [
     path: 'login', component: LoginHomeComponent
   },
   {
-    path: 'vc', component: ViewCardsHomeComponent
+    path: 'vc', component: ViewCardsHomeComponent,
+    canActivate: [CanActivateGuard]
   },
   {
     path: 'cp', 
@@ -22,7 +23,8 @@ const routes: Routes = [
   },
   {
     path: 'home', component: HomeComponent,
-    canDeactivate: [CanDeactivateNewCreditCardGuard]
+    canDeactivate: [CanDeactivateNewCreditCardGuard],
+    canActivate: [CanActivateGuard]
   },
   {
     path: 'login/forget', component: PasswordForgetHomeComponent

@@ -5,7 +5,7 @@
         <ng-template pTemplate="header">
             <tr>
                 <th pSortableColumn="id" class="font-weight-bolder">Id<p-sortIcon field="id"></p-sortIcon></th>
-                <th pSortableColumn="name" class="font-weight-bolder">Name<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="name" class="font-weight-bolder">Issuer<p-sortIcon field="name"></p-sortIcon></th>
                 <th class="font-weight-bolder">Delimiter</th>
                 <th class="font-weight-bolder">Number of digits</th>
                 <th class="font-weight-bolder">Actions</th>
@@ -15,7 +15,7 @@
             <tr>
                 <td class="font-weight-light">{{provider.id}}</td>
                 <td class="font-weight-light">{{provider.name}}</td>
-                <td class="font-weight-light">{{0}} - {{provider.delimiter}}</td>
+                <td class="font-weight-light">{{provider.delimiter}}</td>
                 <td class="font-weight-light">{{provider.nrOfDigits}}</td>
                 <td>
                     <div>                        

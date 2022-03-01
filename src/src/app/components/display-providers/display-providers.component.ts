@@ -41,7 +41,12 @@ export class DisplayProvidersComponent implements OnInit, OnDestroy {
       this.providers = data as ProviderViewDto[];
     }, err=>{
       this.isOffline = true;
-      this.offLineMsg = "Backend cannot be reached. Try again later...";
+     
+      if(err.status === 401){
+        this.offLineMsg = "User is unathorized";
+      }else{
+        this.offLineMsg = "Backend cannot be reached. Try again later...";
+      }
     });
   }
 

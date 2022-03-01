@@ -29,12 +29,17 @@ export class LoginHomeComponent implements OnInit {
 
     this.isBusy = true;  
     this.authService.login(this.user).subscribe(data=>{
-
-     if(data === true){
+    
+      const token = (<any>data).token;
+      const fullName = (<any>data).name + " " + (<any>data).surname;
+      
+      if((<any>data).token.length >= 0){
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", fullName)
         setTimeout(() => {
           this.showSuccess("Login", "Success. Please wait...");
           this.isBusy = false;
-          localStorage.setItem("user1", 'true');
+          
           this.router.navigate(['home']);
         }, 2000);
       }else{

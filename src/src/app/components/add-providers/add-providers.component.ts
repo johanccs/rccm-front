@@ -46,7 +46,7 @@ export class AddProvidersComponent implements OnInit {
         this.isBusy = false;
       }
     },err=> {
-      this.errRedirectTimout();
+      this.errRedirectTimout(err);
       this.isBusy = false;
     });
 
@@ -88,9 +88,9 @@ export class AddProvidersComponent implements OnInit {
     },2000);
   }
 
-  private errRedirectTimout(){
+  private errRedirectTimout(err: any){
     setTimeout(()=>{
-      this.showError("Card Provider", "Error Connecting to backend");
+      this.showError("Card Provider", `${err.statusText}`);
       this.router.navigate(['cp']);
     },2000);
   }

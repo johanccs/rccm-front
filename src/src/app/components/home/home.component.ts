@@ -23,20 +23,20 @@ export class HomeComponent implements OnInit {
     private messageService: MessageService,
     private router: Router) { }
 
-  isStep1Vis: boolean = false;
-  isStep2Vis: boolean = false;
-  isStep3Vis: boolean = false;
+  isStep1Visible: boolean = false;
+  isStep2Visible: boolean = false;
+  isStep3Visible: boolean = false;
     
   step1Msg: string = "Step 1";
   step2Msg: string = "Step 2";
   step3Msg: string = "Step 3";
 
   cardNumber: string = "";
-  maxLength: number = 16;
   providers: ProviderViewDto[] = [];
-  tempProviderId: number = 0;
+  providerId: number = 0;
 
   ngOnInit(): void {
+    this.getCardProviders();
   }
 
   submit(){
@@ -47,13 +47,8 @@ export class HomeComponent implements OnInit {
   }
 
   private create(){
-
-    this.cardProviderService.getAll().subscribe(data => {
-      this.providers = data as ProviderViewDto[];
-      console.log(this.providers);
-      this.tempProviderId = this.getProviderId("mastercard");
    
-    const newCard = new CreditCardCreateDto(this.cardNumber, this.tempProviderId);
+    const newCard = new CreditCardCreateDto(this.cardNumber, this.providerId);
 
     this.creditCardService.createCard(newCard).subscribe(data=>{
 
@@ -65,116 +60,145 @@ export class HomeComponent implements OnInit {
         },2000);
       }
     }, err=>{
-      this.showError("Credit Card", `Error saving credit card - ${err.message}`);
+      this.showError("Credit Card", `Error saving credit card - ${err.error}`);
       this.router.navigate(['home']);
     });
-  });
+  
   }
 
-  private getProviderId(name: string){
+  private getProviderId(){
+   
+    const creditCardNumber = this.cardNumber;
     let id = 0;
-    this.providers.forEach(e => {
-      if(e.name.toLowerCase().includes(name.toLowerCase())){
-        id = e.id;
+
+    this.providers.forEach(x=>{
+      var delimiter = x.delimiter.toString();
+      var delimiterLength = delimiter.toString().length;
+      var creditCardDelimiter = creditCardNumber.substring(0,delimiterLength);
+
+      if(delimiter === creditCardDelimiter){
+        id = x.id;
       }else{
         id = -1;
       }
-    });
+    })
 
     return id;
   }
 
   private runstepOne(){   
     
-    try
-    {
-      this.step1Msg = "Checking Card Provider";
+    let result: boolean = false;
+
+    try{
+      this.step1Msg = "Checking Card Length";
       if(this.cardNumber.length === 0){
         this.step1Msg = "Invalid card length";
-        return false;
+        result = false;
       }else if(this.cardNumber.length > 0){
         this.step1Msg = "Passed";
-        return true;
+        result = true;
       }
     }
     catch(ex){
       console.log(ex);
     }
-    return false;
+    return result;
   }
 
   private runStepTwo(){
 
-    if(this.cardNumber.length > this.maxLength){
-      this.step2Msg = "Validation failed. Invalid Card Length";
-      return false;
-    }else{
-      return true;
+    let result: boolean = false;
+
+    try{
+      let maxLength = this.getProviderMaxLength();
+      if(maxLength == 0){
+        return false;
+      }        
+      
+      this.step2Msg = "Checking Card Length";
+      if(this.cardNumber.length > maxLength){
+        this.step2Msg = "Validation failed. Invalid Card Length";
+        result = false;
+      }else{
+        result = true;
+      }
     }
+    catch(ex){
+      console.log(ex);
+    }
+
+    return result;
   }
 
   private runStepThree(){   
-    return true;
+    
+    try {
+
+      this.step3Msg = "Retrieving provider id";
+      this.providerId = this.getProviderId();  
+      if(this.providerId === -1){
+        return false;
+      }else{
+        return true;
+      }
+    }
+    catch(ex){
+      console.log(ex);
+      return false;
+    }
   }
   
   private stepOneValidation = () => {
-    return new Promise((resolve,reject)=>{
-     this.isStep1Vis = true;
-
-     if(this.runstepOne()){
-       resolve(true);
-     }else{
-       reject(false);
-     }});   
+   
+     this.isStep1Visible = true;
+     return this.runstepOne();
   }
   
   private stepTwoValidation(){
-     return new Promise((resolve,reject)=>{
-     this.isStep2Vis = true;
-
-     if(this.runStepTwo()){       
-      resolve(true);
-     }else{
-       reject(false);
-     }});   
+    
+     this.isStep2Visible = true;
+     return this.runStepTwo();     
   }
   
   private stepThreeValidation(){
-    return new Promise((resolve,reject)=>{
-      this.isStep3Vis = true;
+    
+    this.isStep3Visible = true;
  
-      if(this.runStepThree()){
-       resolve(true);
-      }else{
-        reject(false);
-      }});   
+    return this.runStepThree();       
   }
   
-  private startValidation = async() => {
+  private startValidation = () => {
     this.step1Msg = "Busy. Please wait...";
-    let result = await this.stepOneValidation();
+    let result = this.stepOneValidation();
     
     if(result === true){
       this.step1Msg="Complete";
+    }else {
+      return false;
     }
 
-    result = await this.stepTwoValidation();
+    result = this.stepTwoValidation();
     if(result === true){
       this.step2Msg="Complete";
+    }else {
+      return false;
     }
 
-    result = await this.stepThreeValidation();
+    result = this.stepThreeValidation();
     if(result === true){
       this.step3Msg="Complete";
+    }else {
+      return false;
     }
 
     return true;
   }
 
   private reset(){
-    this.isStep1Vis = false;
-    this.isStep2Vis = false;
-    this.isStep3Vis = false;
+    this.isStep1Visible = false;
+    this.isStep2Visible = false;
+    this.isStep3Visible = false;
   }
 
   private showSuccess(summaryArg: string, detailArg: string){
@@ -191,6 +215,31 @@ export class HomeComponent implements OnInit {
 
   private showBusy(){
     this.messageService.add({key: 't1', severity: 'warn', summary: 'Is  Busy', detail: 'Signing in. Please wait...'});
+  }
+
+  private getCardProviders(){
+    this.cardProviderService.getAll().subscribe(data => {
+      this.providers = data as ProviderViewDto[];    
+    });
+  }
+
+  private getProviderMaxLength(){
+   
+    const creditCardNumber = this.cardNumber;
+    let maxLength: number = 0;
+    let id = 0;
+
+    this.providers.forEach(x=>{
+      var delimiter = x.delimiter.toString();
+      var delimiterLength = delimiter.toString().length;
+      var creditCardDelimiter = creditCardNumber.substring(0,delimiterLength);
+
+      if(delimiter === creditCardDelimiter){
+         maxLength = x.nrOfDigits;
+      }
+    });   
+
+    return maxLength;
   }
 }
 

@@ -14,7 +14,8 @@ export class NavMainHomeComponent implements OnInit {
   }
 
   logout(){
-    localStorage.removeItem('user1');
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     this.router.navigate(['login']);
   }
 
